@@ -28,16 +28,6 @@ class Forecast {
   }
 }
 
-server.get('/newweather', (request, response) => {
-  try {
-    let searchQuery = request.query.searchQuery;
-    let weatherData = weather.find(city => city.city_name === searchQuery);
-    response.send(weatherData);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 function findCity(name, lat, lon) {
   try {
     const city = weather.find((element) => {
