@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const weather = require("./data/weather.json");
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const weather = require('./data/weather.json');
 const server = express();
 server.use(cors());
 
@@ -28,9 +28,19 @@ class Forecast {
   }
 }
 
-function findCity(name, lat, lon, weatherData) {
+server.get('/newweather', (request, response) => {
   try {
-    const city = weatherData.find((element) => {
+    let searchQuery = request.query.searchQuery;
+    let weatherData = weather.find(city => city.city_name === searchQuery);
+    response.send(weatherData);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+function findCity(name, lat, lon) {
+  try {
+    const city = weather.find((element) => {
       return (
         name === element.city_name &&
         Math.round(lat) === Math.round(element.lat) &&
@@ -39,22 +49,22 @@ function findCity(name, lat, lon, weatherData) {
     });
     return city;
   } catch (error) {
-    throw new Error("No City Match in Weather Data" + error);
+    throw new Error('No City Match in Weather Data' + error);
   }
 }
 
-server.get("/weather", (request, response) => {
+server.get('/weather', (request, response) => {
   console.log(request.query);
   const queries = request.query;
-  const city = findCity(queries.city_name, queries.lat, queries.lon, weather);
+  const city = findCity(queries.city_name, queries.lat, queries.lon);
 
   if (city) {
     response.status(200).send(Forecast.makeForecasts(city));
   } else {
-    response.status(404).send("City not found in weather data");
+    response.status(404).send('City not found in weather data');
   }
 });
 
 server.listen(PORT, () => {
-  console.log("Server is running on port :: " + PORT);
+  console.log('Server is running on port :: ' + PORT);
 });
