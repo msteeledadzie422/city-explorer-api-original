@@ -25,3 +25,14 @@ Finish time: 5:30pm
 
 Actual time needed to complete: 30 minutes
 
+----------------------------------------------
+
+Name of feature: GET Request setups
+
+Estimate of time needed to complete: 30 minutes
+
+Start time: 11am
+
+Finish time: 12pm
+
+Actual time needed to complete: 1 hour
